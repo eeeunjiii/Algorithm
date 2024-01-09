@@ -20,13 +20,13 @@ public class Main {
         }
         Arrays.sort(value);
         
-        double temp = value[0] - 0.5;
+        double temp = value[0] - 1;
         int cnt = 1;
-        
+
         for(int i=0; i<N; i++) {
             if(temp+L < value[i]) {
                 cnt++;
-                temp = value[i] - 0.5;
+                temp = value[i] - 1;
             }
         }
         System.out.println(cnt);
