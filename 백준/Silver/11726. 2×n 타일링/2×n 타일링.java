@@ -2,19 +2,16 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int N;
-    private static int[] dp;
 
     public static void main(String[] args) throws IOException {
-        Scanner sc=new Scanner(System.in);
-        N=sc.nextInt();
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        int N=Integer.parseInt(br.readLine());
+        int[] dp=new int[N+1];
 
-        dp=new int[1001];
-
+        dp[0]=1;
         dp[1]=1;
-        dp[2]=2;
 
-        for(int i=3;i<=N;i++){
+        for(int i=2;i<=N;i++){
             dp[i]=(dp[i-1]+dp[i-2])%10007;
         }
         System.out.println(dp[N]);
