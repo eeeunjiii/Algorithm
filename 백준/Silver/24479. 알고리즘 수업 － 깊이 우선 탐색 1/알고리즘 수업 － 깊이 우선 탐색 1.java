@@ -44,9 +44,10 @@ public class Main {
         System.out.println(sb);
     }
     private static void dfs(int start) { // 시작 정점의 방문 순서는 1 (오름차순으로 방문), 방문하지 않는 경우에는 0 출력
+        visited[start]=true;
         ans[start]=order;
         for(int v:graph.get(start)) {
-            if(ans[v]==0) {
+            if(!visited[v]) {
                 order++;
                 dfs(v);
             }
