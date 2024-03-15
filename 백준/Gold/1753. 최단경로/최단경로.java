@@ -7,7 +7,6 @@ public class Main {
     private static int E; // 간선의 개수
     private static List<List<Node>> graph=new ArrayList<>();
     private static int[] dist;
-    private static StringBuilder sb=new StringBuilder();
     private static final int INF=Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
@@ -44,28 +43,28 @@ public class Main {
     private static void Dijkstra(int start) {
         boolean[] visited=new boolean[V+1];
 
+        PriorityQueue<Node> pq=new PriorityQueue<>(
+                Comparator.comparing(o -> o.weight)
+        );
+
         Arrays.fill(dist, INF);
         dist[start]=0;
 
-        for(int i=1;i<=V;i++) { 
-            int nodeValue=INF;
-            int nodeIdx=0;
+        pq.offer(new Node(start, 0));
 
-            for(int j=1;j<=V;j++) {
-                if(!visited[j] && dist[j]<nodeValue) {
-                    nodeValue=dist[j];
-                    nodeIdx=j;
-                }
-            }
-            visited[nodeIdx]=true;
+        while(!pq.isEmpty()) {
+            int index=pq.poll().v;
 
-            for(Node next:graph.get(nodeIdx)) {
-                if(dist[next.v]>dist[nodeIdx]+next.weight) {
-                    dist[next.v]=dist[nodeIdx]+next.weight;
+            if(!visited[index]) visited[index]=true;
+            else continue;
+
+            for(Node node:graph.get(index)) {
+                if(dist[node.v]>dist[index]+node.weight) {
+                    dist[node.v]=dist[index]+node.weight;
+                    pq.offer(new Node(node.v, dist[node.v]));
                 }
             }
         }
-
     }
 }
 
