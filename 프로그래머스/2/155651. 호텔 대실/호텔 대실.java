@@ -12,7 +12,7 @@ class Solution {
             int end=transToMinute(book_time[i][1]);
             
             times[i][0]=start;
-            times[i][1]=end+10;
+            times[i][1]=end;
         }
         
         Arrays.sort(times, (o1, o2) -> {
@@ -33,7 +33,7 @@ class Solution {
                 int start=temp[0];
                 int end=temp[1];
                 
-                if(time[0]>=end) {
+                if(time[0]>=end+10) {
                     queue.poll();
                 }
                 queue.add(time);
