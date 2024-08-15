@@ -3,96 +3,89 @@ import java.util.*;
 
 public class Main {
 
-    static int w, h, answer;
-    static char[][] buildingMap;
-    static Queue<int[]> person;
-    static Queue<int[]> fire;
-	static int[] dx = { -1, 1, 0, 0 };
-	static int[] dy = { 0, 0, -1, 1 };
+    private static final int[] dr={-1,1,0,0};
+    private static final int[] dc={0,0,-1,1};
+    private static int w;
+    private static int h;
+    private static int answer;
+    private static char[][] board;
+    private static Queue<int[]> fire;
+    private static Queue<int[]> person;
+
     public static void main(String[] args) throws IOException {
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb=new StringBuilder();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        int TC=Integer.parseInt(br.readLine());
+        for(int t=0;t<TC;t++) {
+            StringTokenizer st=new StringTokenizer(br.readLine());
 
-        int t = Integer.parseInt(br.readLine());
+            w=Integer.parseInt(st.nextToken()); // 너비(열)
+            h=Integer.parseInt(st.nextToken()); // 높이(행)
 
-        for (int i=0; i<t; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            w = Integer.parseInt(st.nextToken());
-            h = Integer.parseInt(st.nextToken());
+            board=new char[h][w];
+            fire=new LinkedList<>();
+            person=new LinkedList<>();
 
-            buildingMap = new char[h][w];
-            person = new LinkedList<>();
-            fire = new LinkedList<>();
-
-            for (int j=0; j<h; j++) {
-                String line = br.readLine();
-                for (int k = 0; k < w; k++) {
-                    buildingMap[j][k] = line.charAt(k);
-
-                    if (buildingMap[j][k] == '@') {
-                        person.add(new int[]{j, k, 0});
-                    } 
-                    if (buildingMap[j][k] == '*') {
-                        fire.add(new int[]{j, k, 0});
+            for(int i=0;i<h;i++) {
+                String line=br.readLine();
+                for(int j=0;j<w;j++) {
+                    board[i][j]=line.charAt(j);
+                    if(board[i][j]=='@') {
+                        person.offer(new int[]{i, j, 0});
+                    } else if(board[i][j]=='*') {
+                        fire.offer(new int[]{i, j});
                     }
                 }
             }
-
-            answer = 0;
+            answer=0;
             bfs();
 
-            if (answer == 0) sb.append("IMPOSSIBLE\n");
-            else sb.append(answer + "\n");
+            if(answer==0) sb.append("IMPOSSIBLE").append("\n");
+            else sb.append(answer).append("\n");
         }
-
-        System.out.println(sb.toString());
-
-        br.close();
+        System.out.println(sb);
     }
 
     private static void bfs() {
+        while(!person.isEmpty()) {
+            int size=fire.size();
 
-        while (!person.isEmpty()) {
-            int size = fire.size();
-            for (int i = 0; i < size; i++) {
-                int[] tmp = fire.poll();
+            for(int i=0;i<size;i++) {
+                int[] v=fire.poll();
 
-                for (int j = 0; j < 4; j++) {
-                    int nx = tmp[0] + dx[j];
-                    int ny = tmp[1] + dy[j];
+                for(int j=0;j<4;j++) {
+                    int nx=v[0]+dr[j];
+                    int ny=v[1]+dc[j];
 
-                    if (range(nx, ny) && (buildingMap[nx][ny] == '.' || buildingMap[nx][ny] == '@')) {
-                        buildingMap[nx][ny] = '*';
-                        fire.offer(new int[] { nx, ny, 0 });
+                    if(nx>=h || nx<0 || ny>=w || ny<0) continue;
+                    if(board[nx][ny]=='.' || board[nx][ny]=='@') {
+                        board[nx][ny]='*';
+                        fire.offer(new int[]{nx, ny});
                     }
                 }
-
             }
 
-            size = person.size();
-            for (int k=0; k<size; k++) {
-                int[] tmp = person.poll();
-                
-                for (int j=0; j<4; j++) {
-                    int nx = tmp[0] + dx[j];
-                    int ny = tmp[1] + dy[j];
+            size=person.size();
 
-                    if (!range(nx, ny)) {
-                        answer = tmp[2] + 1;
+            for(int i=0;i<size;i++) {
+                int[] v=person.poll();
+
+                for(int j=0;j<4;j++) {
+                    int nx=v[0]+dr[j];
+                    int ny=v[1]+dc[j];
+
+                    if(nx>=h || nx<0 || ny>=w || ny<0) {
+                        answer = v[2] + 1;
                         return;
                     }
 
-                    if (buildingMap[nx][ny] == '.') {
-                        buildingMap[nx][ny] = '@';
-                        person.offer(new int[] {nx, ny, tmp[2] + 1});
+                    if(board[nx][ny]=='.') {
+                        board[nx][ny]='@';
+                        person.offer(new int[]{nx, ny, v[2]+1});
                     }
                 }
             }
         }
-    }
-
-    private static boolean range(int x, int y) {
-        return x>=0 && y>=0 && x<h && y<w;
     }
 }
