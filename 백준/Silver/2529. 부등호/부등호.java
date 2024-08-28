@@ -42,32 +42,23 @@ public class Main {
             return;
         }
 
-        if(depth==0) {
-            for(int i=0;i<=9;i++) {
-                if(!visited[i]) {
-                    visited[i]=true;
-                    ans[depth]=i;
-                    dfs(depth+1, cnt+1);
-                    visited[i]=false;
-                }
-            }
-        } else {
-            for(int i=0;i<=9;i++) {
-                if(!visited[i]) {
-                    if(c[cnt].equals("<") && ans[depth-1]<i) {
-                        visited[i]=true;
-                        ans[depth]=i;
-                        dfs(depth+1, cnt+1);
-                        visited[i]=false;
-                    }
-                    if(c[cnt].equals(">") && ans[depth-1]>i){
-                        visited[i]=true;
-                        ans[depth]=i;
-                        dfs(depth+1, cnt+1);
-                        visited[i]=false;
-                    }
-                }
+        for(int i=0;i<=9;i++) {
+            if(visited[i]) continue;
+            if(depth==0 || check(ans[depth-1], i, c[cnt])) {
+                visited[i]=true;
+                ans[depth]=i;
+                dfs(depth+1, cnt+1);
+                visited[i]=false;
             }
         }
+    }
+
+    private static boolean check(int num1, int num2, String s) {
+        if(s.equals("<")) {
+            if(num1>num2) return false;
+        } else {
+            if(num1<num2) return false;
+        }
+        return true;
     }
 }
