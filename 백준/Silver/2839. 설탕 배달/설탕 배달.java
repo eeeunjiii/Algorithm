@@ -1,28 +1,25 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    private static int N;
-    private static int cnt = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
-        N=Integer.parseInt(br.readLine());
-
-        while(N>0) {
-            if(N%5==0){
-                N-=5;
-                cnt++;
-            } else if(N%3==0){
-                N-=3;
-                cnt++;
-            } else{
-                N-=5;
-                cnt++;
-            }
+        int N = Integer.parseInt(br.readLine());
+        int[] dp = new int[5001];
+        for(int i=8;i<=N;i++){
+            dp[i]=Integer.MAX_VALUE;
         }
-        if(N!=0) cnt=-1;
-        
-        System.out.println(cnt);
+        dp[3]= dp[5]=1;
+        dp[4]= dp[7]=-1;
+        dp[6]=2;
+
+        for(int i = 8; i<= N; i++){
+            if(dp[i-3]!=-1 && dp[i-5]!=-1) dp[i]=Math.min(dp[3]+ dp[i-3], dp[5]+ dp[i-5]);
+            else if(dp[i-3]!=-1) dp[i]= dp[i-3]+1;
+            else if(dp[i-5]!=-1) dp[i]= dp[i-5]+1;
+            else dp[i]=-1;
+        }
+        System.out.println(dp[N]);
     }
 }
