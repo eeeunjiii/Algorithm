@@ -26,8 +26,8 @@ public class Main {
             }
         }
 
-        for(int i=1;i<=N;i++) {
-            for(int j=1;j<=N;j++) {
+        for(int i=2;i<=N-1;i++) {
+            for(int j=2;j<=N-1;j++) {
                 if(!visited[i][j]) dfs(i, j, 0);
             }
         }
@@ -44,8 +44,8 @@ public class Main {
         if(check(x, y)) {
             makeTrue(x, y);
 
-            for(int i=1;i<=N;i++) {
-                for(int j=1;j<=N;j++) {
+            for(int i=2;i<=N-1;i++) {
+                for(int j=2;j<=N-1;j++) {
                     if(!visited[i][j]) dfs(i, j, depth+1);
                 }
             }
