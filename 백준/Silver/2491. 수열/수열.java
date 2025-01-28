@@ -1,29 +1,41 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
+
 public class Main {
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[][] dp = new int[3][n+1];
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        dp[0][1] = Integer.parseInt(st.nextToken());
-        dp[1][1] = 1;
-        dp[2][1] = 1;
-        int max = 1;
-        for (int i = 2; i <= n; i++) {
-            dp[0][i] = Integer.parseInt(st.nextToken());
-            if (dp[0][i] >= dp[0][i-1]) {
-                dp[1][i] = dp[1][i-1]+1;
-            } else {
-                dp[1][i] = 1;
-            }
-            if (dp[0][i] <= dp[0][i-1]) {
-                dp[2][i] = dp[2][i-1]+1;
-            } else {
-                dp[2][i] = 1;
-            }
-            max = Math.max(max, Math.max(dp[1][i], dp[2][i]));
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+        int N=Integer.parseInt(br.readLine());
+        int[] arr=new int[N];
+        int[][] dp=new int[N][2]; // 커지는 경우, 작아지는 경우
+
+        StringTokenizer st=new StringTokenizer(br.readLine());
+        for(int i=0;i<N;i++) {
+            arr[i]=Integer.parseInt(st.nextToken());
         }
-        System.out.print(max);
+
+        dp[0][0]=dp[0][1]=1;
+        
+        for(int i=1;i<N;i++) {
+            if(arr[i-1]<=arr[i]) { // 증가하는 경우
+                dp[i][0]=dp[i-1][0]+1;
+            } else {
+                dp[i][0]=1;
+            }
+
+            if(arr[i-1]>=arr[i]) { // 감소하는 경우
+                dp[i][1]=dp[i-1][1]+1;
+            } else {
+                dp[i][1] = 1;
+            }
+        }
+        
+        int max=0;
+        for(int i=0;i<N;i++) {
+            max=Math.max(max, Math.max(dp[i][0], dp[i][1]));
+        }
+
+        System.out.println(max);
     }
 }
