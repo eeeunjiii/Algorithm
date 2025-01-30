@@ -55,12 +55,3 @@ public class Main {
         return cnt;
     }
 }
-class Dna {
-    char alpha;
-    int cnt;
-
-    public Dna(char alpha, int cnt) {
-        this.alpha=alpha;
-        this.cnt=cnt;
-    }
-}
