@@ -54,13 +54,13 @@ public class Main {
         while(!pq.isEmpty()) {
             int v=pq.poll().end;
 
-            if(!visited[v]) visited[v]=true;
-            else continue;
-
-            for(Node next:map.get(v)) {
-                if(dist[next.end]>dist[v]+next.time) {
-                    dist[next.end]=dist[v]+next.time;
-                    pq.offer(new Node(next.end, dist[next.end]));
+            if(!visited[v]) {
+                visited[v] = true;
+                for(Node next:map.get(v)) {
+                    if(dist[next.end]>dist[v]+next.time) {
+                        dist[next.end]=dist[v]+next.time;
+                        pq.offer(new Node(next.end, dist[next.end]));
+                    }
                 }
             }
         }
