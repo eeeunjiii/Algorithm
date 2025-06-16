@@ -4,60 +4,46 @@ import java.util.*;
 
 public class Main {
 
-    static char[] vowels={'a', 'e', 'i', 'o', 'u'};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb=new StringBuilder();
 
-        while(true) {
-            String str=br.readLine();
+        String password;
+        char[] word;
+        String acc="> is acceptable.\n";
+        String not="> is not acceptable.\n";
+        boolean flag;
+        char prev;
+        int count;
 
-            if(str.equals("end")) {
-                break;
-            } else {
-                char[] arr=str.toCharArray();
-                int[] check=new int[arr.length];
-                int vowelCnt=0;
-                boolean flag=true;
+        while(!(password=br.readLine()).equals("end")) {
+            word=password.toCharArray();
+            prev='.';
+            count=0;
 
-                for(int i=0;i<arr.length;i++) {
-                    for(int j=0;j<vowels.length;j++) {
-                        if(arr[i]==vowels[j]) {
-                            check[i]=0; // 모음이면 0을 저장
-                            vowelCnt++;
-                            break;
-                        } else {
-                            check[i]=1; // 자음이면 1을 저장
-                        }
-                    }
-                }
+            flag=false;
+            for(char w:word) {
+                if(isVowel(w)) flag=true;
 
-                if(vowelCnt>=1) {
-                    String num= Arrays.toString(check).replace("[", "").replace("]", "").replace(", ", "");
+                if(isVowel(w)!=isVowel(prev)) count=1;
+                else count++; // 인접한 것이 둘 다 모음이거나 자음일 경우
 
-                    if(num.contains("111") || num.contains("000")) flag=false;
-
-                    char prev=arr[0];
-                    for(int i=1;i<arr.length;i++) {
-                        char cur=arr[i];
-
-                        if(prev!=cur) {
-                            prev=arr[i];
-                        }
-                        else if(prev == 'e' || prev=='o') prev=arr[i];
-                        else {
-                            flag=false;
-                        }
-                    }
-                } else {
+                if(count>=3 || (prev==w && (w!='e' && w!='o'))) {
                     flag=false;
+                    break;
                 }
 
-                if(flag) sb.append("<").append(str).append("> ").append("is acceptable.").append("\n");
-                else sb.append("<").append(str).append("> ").append("is not acceptable.").append("\n");
+                prev=w;
             }
+
+            if(flag) sb.append("<").append(password).append(acc);
+            else sb.append("<").append(password).append(not);
         }
         System.out.println(sb);
+    }
+
+    static boolean isVowel(char ch) {
+        return ch=='a' || ch=='e' || ch=='i' || ch=='o' || ch=='u';
     }
 }
