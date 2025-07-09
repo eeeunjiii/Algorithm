@@ -21,7 +21,7 @@ public class Main {
         int min=Integer.MAX_VALUE;
         int start=0;
         int end=0;
-        while(start<=N && end<=N) {
+        while(end<=N) {
             if(sum>=S && min>end-start) {
                 min=end-start;
             }
