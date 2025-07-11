@@ -29,6 +29,7 @@ public class Main {
                     if(!map.isEmpty() && map.containsKey(origin)) {
                         if(map.get(origin)!=compare) {
                             flag=false;
+                            break;
                         }
                     } else { // 해당 key를 포함하고 있지 않으면
                         // 기존에 있는 value와 compare를 비교
@@ -38,9 +39,10 @@ public class Main {
 
                             if(map.get(next)==compare) {
                                 flag=false;
+                                break;
                             }
                         }
-                        if(flag) map.put(origin, compare);
+                        map.put(origin, compare);
                     }
                 }
                 if(flag) cnt++;
