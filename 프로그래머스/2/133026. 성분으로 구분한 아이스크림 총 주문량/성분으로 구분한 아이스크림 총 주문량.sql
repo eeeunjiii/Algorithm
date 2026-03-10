@@ -1,0 +1,12 @@
+-- 성분 타입과 성분 타입에 대한 아이스크림의 총주문량을 출력
+-- 총주문량이 작은 순서대로 조회해야 함.
+-- 총주문량을 나타내는 칼럼명: TOTAL_ORDER
+
+SELECT A.INGREDIENT_TYPE, SUM(B.TOTAL_ORDER) AS TOTAL_ORDER
+  FROM ICECREAM_INFO AS A
+ INNER
+  JOIN FIRST_HALF AS B
+    ON A.FLAVOR=B.FLAVOR
+ GROUP BY A.INGREDIENT_TYPE
+ ORDER BY SUM(B.TOTAL_ORDER);
+ 
