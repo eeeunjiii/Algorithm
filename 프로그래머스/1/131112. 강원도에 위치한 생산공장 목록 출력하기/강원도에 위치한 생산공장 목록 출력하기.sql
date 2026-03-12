@@ -1,0 +1,5 @@
+-- 강원도에 위치한 식품 공장
+-- 공장 ID 기준 오름차순 정렬
+SELECT FACTORY_ID, FACTORY_NAME, ADDRESS
+FROM FOOD_FACTORY
+WHERE ADDRESS LIKE '강원도%';
