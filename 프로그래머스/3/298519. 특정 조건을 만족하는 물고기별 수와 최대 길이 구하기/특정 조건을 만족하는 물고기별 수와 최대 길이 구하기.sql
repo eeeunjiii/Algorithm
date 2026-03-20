@@ -1,0 +1,9 @@
+-- 평균길이가 33cm이상인 물고기를 종류별로 분류
+-- 잡은 수, 최대 길이, 물고기 종류 조회
+-- 물고기 종류 오름차순 정렬, 10cm 이하의 물고기는 10cm로 간주
+
+SELECT COUNT(FISH_TYPE) AS FISH_COUNT, MAX(IFNULL(LENGTH, 10)) AS MAX_LENGTH, FISH_TYPE
+FROM FISH_INFO
+GROUP BY FISH_TYPE
+HAVING AVG(IFNULL(LENGTH, 10))>=33
+ORDER BY FISH_TYPE ASC;
