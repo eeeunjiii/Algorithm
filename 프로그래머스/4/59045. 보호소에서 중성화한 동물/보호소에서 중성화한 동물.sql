@@ -1,0 +1,11 @@
+-- 중성화 수술을 거친 동물 정보
+-- 들어올 때에는 중성화되지 않았지만, 나갈 때 중성화된 동물
+-- ID 오름차순 정렬
+
+SELECT I.ANIMAL_ID, I.ANIMAL_TYPE, I.NAME
+FROM ANIMAL_INS AS I
+JOIN ANIMAL_OUTS AS O ON I.ANIMAL_ID=O.ANIMAL_ID
+WHERE I.SEX_UPON_INTAKE LIKE ('Intact%') 
+      AND (O.SEX_UPON_OUTCOME LIKE ('Spayed%')
+      OR O.SEX_UPON_OUTCOME LIKE ('Neutered%'))
+ORDER BY ANIMAL_ID ASC;
