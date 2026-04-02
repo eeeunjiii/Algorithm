@@ -43,7 +43,7 @@ public class Main {
                 }
             }
             if (!flag) {
-                for (int i=list.size()-1;i>1;i--) {
+                for (int i=list.size()-1;i>=1;i--) {
                     if (list.get(i).charAt(0)>='A' && list.get(i).charAt(0)<='Z') {
                         list.set(i-1, list.get(i-1)+"_");
                         mod--;
