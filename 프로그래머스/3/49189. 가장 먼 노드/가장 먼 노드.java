@@ -5,6 +5,7 @@ class Solution {
     static int[] dist;
     static List<List<Integer>> list;
     static int level=1;
+    static int max=Integer.MIN_VALUE;
     
     public int solution(int n, int[][] edge) {
         // 1번 노드에서 가장 멀리 떨어진 노드의 개수
@@ -27,11 +28,6 @@ class Solution {
         dist[1]=0;
         
         bfs(n);
-        
-        int max=Integer.MIN_VALUE;
-        for (int i=1;i<=n;i++) {
-            max=Math.max(max, dist[i]);
-        }
         
         int ans=0;
         for (int i=1;i<=n;i++) {
@@ -59,6 +55,8 @@ class Solution {
                     visited[next]=true;
                     dist[next]=dist[cur]+1;
                     queue.offer(next);
+                    
+                    max=Math.max(max, dist[next]);
                 }
             }
         }
