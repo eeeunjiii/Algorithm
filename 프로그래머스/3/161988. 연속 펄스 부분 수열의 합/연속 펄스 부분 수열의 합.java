@@ -1,37 +1,41 @@
 class Solution {
-    static long ans=0;
+    static public int N;
     
     public long solution(int[] seq) {
-        int N=seq.length;
+        N=seq.length;
         
         int[] seq1=new int[N];
-        for (int i=0;i<N;i++) {
-            if (i%2==0) seq1[i]=-seq[i];
-            else seq1[i]=seq[i];
-        }
-        
         int[] seq2=new int[N];
+        
         for (int i=0;i<N;i++) {
-            if (i%2==0) seq2[i]=seq[i];
-            else seq2[i]=-seq[i];
+            if (i%2==0) {
+                seq1[i]=-seq[i];
+                seq2[i]=seq[i];
+            }
+            else {
+                seq1[i]=seq[i];
+                seq2[i]=-seq[i];
+            }
         }
         
-        findMax(N, seq1);
-        findMax(N, seq2);
-        
-        return ans;
+        return Math.max(findMax(seq1), findMax(seq2));
     }
     
-    static void findMax(int N, int[] seq) {
-        long total=0;
+    static public long findMax(int[] seq) {
+        long[] prefix=new long[N+1];
         
-        for (int L=0, R=0;L<N;L++) {
-            while (total>=0 && R<N) {
-                total+=seq[R];
-                ans=Math.max(total, ans);
-                R++;
-            }
-            total-=seq[L];
+        for (int i=0;i<N;i++) { // 부분 수열 중 누적합이 가장 큰 것-가장 작은 것
+            prefix[i+1]=prefix[i]+seq[i];
         }
+        
+        long max=prefix[0];
+        long min=prefix[0];
+        
+        for (int i=0;i<=N;i++) {
+            if (max<prefix[i]) max=prefix[i];
+            if (min>prefix[i]) min=prefix[i];
+        }
+        
+        return max-min;
     }
 }
